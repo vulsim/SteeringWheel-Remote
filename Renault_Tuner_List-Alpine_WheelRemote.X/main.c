@@ -182,8 +182,8 @@ void repeat(uint8_t key)
     __delay_ms(41);
 }
 
-void setup() {
-
+void setup() 
+{
     INTCON = 0x0;
     TRISA = 0xFF;
     TRISB = 0xFF;
@@ -192,10 +192,9 @@ void setup() {
     nRBPU = 0x0;
 }
 
-void main(void) {
-
+void main(void) 
+{
     static uint8_t activeKey = 0xFF;
-
     setup();
 
     while (1) {
