@@ -9,16 +9,17 @@
 #include <stdint.h>
 #include <pic16f628.h>
 
-#pragma config BOREN = OFF, CPD = OFF, FOSC = XT, MCLRE = OFF, WDTE = OFF, CP = OFF, LVP = OFF, PWRTE = ON
+#pragma config BOREN = OFF, CPD = OFF, FOSC = XT, MCLRE = ON, WDTE = OFF, CP = OFF, LVP = OFF, PWRTE = ON
 
-#define _XTAL_FREQ          1000000
+#define _XTAL_FREQ          4000000
 #define OUTPUT_MASK         0x2
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#define ALPINE_CMD_COUNT    11
 #define ALPINE_PACKET_SIZE  4
 
-const uint8_t alpine_packet[11][ALPINE_PACKET_SIZE] = {
+const uint8_t alpine_packet[ALPINE_CMD_COUNT][ALPINE_PACKET_SIZE] = {
     {0x86, 0x72, 0x14, 0xEB},   // 0: Volume up
     {0x86, 0x72, 0x15, 0xEA},   // 1: Volume down
     {0x86, 0x72, 0x16, 0xE9},   // 2: Mute
@@ -51,8 +52,8 @@ const uint8_t alpine_packet[11][ALPINE_PACKET_SIZE] = {
 #define ENC_KEY_1           1
 #define ENC_KEY_2           2
 
-const uint8_t key_push_bit[KEY_COUNT] = {0, 1, 2, 0, 1, 2, 0, 1, 2};
-const uint8_t key_pull_bit[KEY_COUNT] = {4, 4, 4, 5, 5, 5, 6, 6, 6};
+const uint8_t key_push_bit[KEY_COUNT] = {0, 4, 2, 2, 4, 0, 4, 0, 2};
+const uint8_t key_pull_bit[KEY_COUNT] = {1, 1, 1, 5, 5, 5, 3, 3, 3};
 
 const uint8_t key_mode[KEY_COUNT] = {2, 2, 2, 1, 0, 0, 0, 0, 0};
 const uint8_t key_cmd1[KEY_COUNT] = {0, 0, 0, 10, 6, 7, 3, 9, 4};
