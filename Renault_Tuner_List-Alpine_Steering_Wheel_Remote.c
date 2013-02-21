@@ -9,10 +9,13 @@
 #include <stdint.h>
 #include <pic16f628.h>
 
-#pragma config BOREN = OFF, CPD = OFF, FOSC = XT, MCLRE = ON, WDTE = OFF, CP = OFF, LVP = OFF, PWRTE = ON
+#pragma config BOREN = OFF, CPD = OFF, FOSC = XT, MCLRE = OFF, WDTE = OFF, CP = OFF, LVP = OFF, PWRTE = OFF
 
 #define _XTAL_FREQ          4000000
 #define OUTPUT_MASK         0x2
+
+#define __delay_us(x) _delay((unsigned long)((x)*(_XTAL_FREQ/4000000.0)))
+#define __delay_ms(x) _delay((unsigned long)((x)*(_XTAL_FREQ/4000.0)))
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -57,7 +60,7 @@ const uint8_t key_pull_bit[KEY_COUNT] = {1, 1, 1, 5, 5, 5, 3, 3, 3};
 
 const uint8_t key_mode[KEY_COUNT] = {2, 2, 2, 1, 0, 0, 0, 0, 0};
 const uint8_t key_cmd1[KEY_COUNT] = {0, 0, 0, 10, 6, 7, 3, 9, 4};
-const uint8_t key_cmd2[KEY_COUNT] = {1, 1, 1, 5, 6, 7, 3, 9, 4};
+const uint8_t key_cmd2[KEY_COUNT] = {1, 1, 1, 5, 6, 7, 3, 9, 4}; ;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -182,7 +185,7 @@ void repeat(uint8_t key)
     __delay_ms(41);
 }
 
-void setup() 
+void setup()
 {
     INTCON = 0x0;
     TRISA = 0xFF;
@@ -192,7 +195,7 @@ void setup()
     nRBPU = 0x0;
 }
 
-void main(void) 
+void main(void)
 {
     static uint8_t activeKey = 0xFF;
     setup();
