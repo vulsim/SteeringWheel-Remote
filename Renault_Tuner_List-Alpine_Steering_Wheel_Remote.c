@@ -46,7 +46,7 @@ const uint8_t alpine_packet[ALPINE_CMD_COUNT][ALPINE_PACKET_SIZE] = {
 // KEY 4 - Volume+      - Previos track
 // KEY 5 - Volume-      - Next track
 // KEY 6 - Source-      - Folder up
-// KEY 7 - Mute         - Play
+// KEY 7 - Mute         - Play/Mute
 // KEY 8 - Source+      - Folder down
 
 #define KEY_COUNT           9
@@ -58,9 +58,9 @@ const uint8_t alpine_packet[ALPINE_CMD_COUNT][ALPINE_PACKET_SIZE] = {
 const uint8_t key_push_bit[KEY_COUNT] = {0, 4, 2, 2, 4, 0, 4, 0, 2};
 const uint8_t key_pull_bit[KEY_COUNT] = {1, 1, 1, 5, 5, 5, 3, 3, 3};
 
-const uint8_t key_mode[KEY_COUNT] = {2, 2, 2, 1, 0, 0, 0, 0, 0};
+const uint8_t key_mode[KEY_COUNT] = {2, 2, 2, 1, 0, 0, 0, 1, 0};
 const uint8_t key_cmd1[KEY_COUNT] = {0, 0, 0, 10, 6, 7, 3, 9, 4};
-const uint8_t key_cmd2[KEY_COUNT] = {1, 1, 1, 5, 6, 7, 3, 9, 4}; ;
+const uint8_t key_cmd2[KEY_COUNT] = {1, 1, 1, 5, 6, 7, 3, 2, 4}; ;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -136,7 +136,7 @@ void process(uint8_t key)
             sendCmd(key_cmd1[key]);
             break;
         case 1:
-            __delay_ms(255);
+            /*__delay_ms(255);
             __delay_ms(245);
             if (keyPressed(key)) {
                 sendCmd(key_cmd1[key]);
@@ -149,7 +149,18 @@ void process(uint8_t key)
                 } else {
                     sendCmd(key_cmd1[key]);
                 }
+            }*/
+            
+            uint8_t count = 0;
+            for (; keyPressed(key); count++) {                
+                __delay_ms(10);
             }
+            
+            if (count > 65) {
+                sendCmd(key_cmd2[key]);
+            } else {
+                sendCmd(key_cmd1[key]);
+            }            
             break;
         case 2: {
             static uint8_t encLastKey = 0xFF;
@@ -217,8 +228,7 @@ void main(void)
                 repeat(activeKey);
             } else {
                 activeKey = 0xFF;
-                __delay_ms(255);
-                __delay_ms(245);
+                __delay_ms(250);                
             }
         }
     }
