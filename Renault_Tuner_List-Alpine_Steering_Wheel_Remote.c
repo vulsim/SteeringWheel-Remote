@@ -1,5 +1,5 @@
 /* 
- * File:   main.c
+ * File:   Renault_Tuner_List-Alpine_Steering_Wheel_Remote.c
  * Author: vulsim
  *
  * Created on 28/01/2013, 21:08
@@ -149,8 +149,7 @@ void process(uint8_t key)
                 } else {
                     sendCmd(key_cmd1[key]);
                 }
-            }*/
-            
+            }*/            
             uint8_t count = 0;
             for (; keyPressed(key); count++) {                
                 __delay_ms(10);
